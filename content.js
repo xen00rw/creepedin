@@ -81,7 +81,6 @@ const callback = function (mutationsList) {
     for (const mutation of mutationsList) {
         if (mutation.type === "childList") {
             checkDivChanges();
-            clickButtonsWhenAppear();
         }
     }
 };
