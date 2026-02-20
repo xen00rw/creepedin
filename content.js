@@ -31,6 +31,24 @@ function checkDivChanges() {
     }
 }
 
+// Handle button "show more people"
+function clickButtonsWhenAppear() {
+  const selector = "div.display-flex.p5 button";
+
+  const observer = new MutationObserver(() => {
+    const buttons = document.querySelectorAll(selector);
+    if (buttons.length > 0) {
+      buttons.forEach(btn => btn.click());
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
+}
+
 // Handle messages from the background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "AUTOSCROLL") {
@@ -63,6 +81,7 @@ const callback = function (mutationsList) {
     for (const mutation of mutationsList) {
         if (mutation.type === "childList") {
             checkDivChanges();
+            clickButtonsWhenAppear();
         }
     }
 };
